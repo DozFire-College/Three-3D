@@ -38,15 +38,16 @@ export class Settings{
     _createCubeMesh(){
         const geometry = new THREE.BoxGeometry( 1, 1, 1 );
         console.log(geometry);
-        const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+        const material = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
         console.log(material);
         material.transparent = true;
-        material.opacity = 0.5;
+        material.opacity = 1;
         const mesh = new THREE.Mesh( geometry, material );
         mesh.rotation.x = 45;
         mesh.position.y = 3;
         console.log(mesh);
         this.scene.add( mesh );
+        material.side = THREE.DoubleSide
     }
 
     _createCustomMesh(){
@@ -65,6 +66,7 @@ export class Settings{
         geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
         const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
         const mesh = new THREE.Mesh( geometry, material );
+        material.side = THREE.DoubleSide
         console.log(mesh);
         this.scene.add(mesh);
     }

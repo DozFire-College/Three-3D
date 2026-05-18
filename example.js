@@ -1,12 +1,30 @@
 ﻿import * as THREE from 'three'
+import { CameraManager } from './src/core/CameraManager.js';
 // сцена
 const scene = new THREE.Scene();
-// камера - угол наклона, расположение, отсечения
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
 // отрисовка
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+// камера - угол наклона, расположение, отсечения
+const cameraManager = new CameraManager(renderer.domElement);
+const camera = cameraManager.create();
+cameraManager.createControls();
+
+
+//Скайбокс
+const loader = new THREE.CubeTextureLoader();
+const skyboxTexture = loader.load([
+    './src/skybox_images/i.png',
+    './src/skybox_images/i.png',
+    './src/skybox_images/i.png',
+    './src/skybox_images/i.png',
+    './src/skybox_images/i.png',
+    './src/skybox_images/i.png',
+]);
+scene.background = skyboxTexture;
+
 //освещение
 const light = new THREE.DirectionalLight(0xFFFFFF, 1);
 light.position.set(15, 15, 15);
@@ -22,15 +40,21 @@ const material = new THREE.MeshStandardMaterial({
 });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
+window.addEventListener('resize', () => {
+    cameraManager.onWindowResize();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
-camera.position.z = 25;
+
 
 function render() {
     requestAnimationFrame(render);
+    cameraManager.update();
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
     renderer.render(scene, camera);
 }
 
+render();
 
 
