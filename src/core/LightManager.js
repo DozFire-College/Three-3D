@@ -9,6 +9,7 @@ export class LightManager {
     
     createAll(){
         this._createMainLight();
+        this._createAmbientLight();
         return this.lights;
     }
     
@@ -28,6 +29,22 @@ export class LightManager {
         }
         this.scene.add(light);
         this.lights.main = light;
+
+        const helper = new THREE.DirectionalLightHelper( light, 5 );
+        this.scene.add( helper );
+
+    }
+
+    _createAmbientLight(){
+        const light = new THREE.AmbientLight( 'yellow' ); // soft white light
+        light.position.x = -3;
+        light.position.y = 3;
+        light.intensity = 0.5;
+
+        this.scene.add( light );
+        this.lights.ambient = light;
+        console.log(light);
+
     }
     
     getLight(name){

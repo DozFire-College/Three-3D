@@ -6,6 +6,6 @@
         // color scene
         color: 0x1E1036,
         // opacity scene back
-        density: 0.03
+        density: 0.003
     }
 }
